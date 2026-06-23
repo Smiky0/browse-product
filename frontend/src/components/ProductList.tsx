@@ -50,7 +50,7 @@ export default function ProductList() {
     }
 
     async function simulateUpdates() {
-        const res = await fetch("http://localhost:3000/products/update", {
+        const res = await fetch(`${BACKEND_URL}/products/update`, {
             method: "POST",
         });
 
