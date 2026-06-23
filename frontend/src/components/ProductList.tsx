@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { BACKEND_URL } from "astro:env/client";
 
-const API_URL = "http://localhost:3000/products";
+const API_URL = `${BACKEND_URL}/products`;
 
 export default function ProductList() {
     const [products, setProducts] = useState<any[]>([]);
@@ -54,8 +55,8 @@ export default function ProductList() {
         });
 
         const data = await res.json();
-		alert(`${data.updated} products updated`);
-		console.log(data)
+        alert(`${data.updated} products updated`);
+        console.log(data);
     }
 
     const categories = ["Books", "Electronics", "Sports", "Gaming"];
