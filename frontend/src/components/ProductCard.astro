@@ -1,0 +1,43 @@
+---
+import type { Product } from "../types/product";
+
+const { product } = Astro.props;
+---
+
+<div class="card">
+  <h3>{product.name}</h3>
+
+  <div class="meta">
+    <span>{product.category}</span>
+
+    <span>${product.price}</span>
+  </div>
+
+  <small>
+    Updated:
+    {new Date(product.updatedAt).toLocaleString()}
+  </small>
+</div>
+
+<style>
+  .card {
+    background: #1e293b;
+
+    border-radius: 12px;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  h3 {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import ProductList from "../components/ProductList";
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+    <div class="p-6 flex flex-col gap-2">
+        <h1 class="text-2xl font-semibold">Product Browser</h1>
+        <p class="text-base text-white/80">
+            Cursor Pagination + Snapshot Consistency
+        </p>
+    </div>
+    <ProductList client:load />
+</Layout>
