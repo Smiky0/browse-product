@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { z } from "zod";
-import { browseProducts } from "../services/product.service";
+import { success, z } from "zod";
+import { browseProducts, simulateUpdates } from "../services/product.service";
 
 const app = new Hono();
 const schema = z.object({
@@ -28,8 +28,12 @@ app.get("/", async (c) => {
     });
 });
 
-app.get("/update", async (c) => { 
-	
-})
+app.post("/update", async (c) => {
+    const updated = await simulateUpdates();
+    return c.json({
+        success: true,
+        updated,
+    });
+});
 
 export default app;

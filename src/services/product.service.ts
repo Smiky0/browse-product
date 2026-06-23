@@ -1,4 +1,4 @@
-import { and, desc, eq, lt, or } from "drizzle-orm";
+import { and, desc, eq, inArray, lt, or, sql } from "drizzle-orm";
 
 import { db } from "../db/client";
 import { products } from "../db/schema";
@@ -51,10 +51,10 @@ export async function browseProducts({
     const items = hasMore ? rows.slice(0, limit) : rows;
 
     let nextCursor: string | null = null;
-	// if more data available
+    // if more data available
     if (hasMore) {
         const last = items.at(-1)!;
-		// point cursor to the last element
+        // point cursor to the last element
         nextCursor = encodeCursor({
             updatedAt: last.updatedAt.toISOString(),
             id: last.id,
@@ -65,4 +65,29 @@ export async function browseProducts({
         nextCursor,
         hasMore,
     };
+}
+
+export async function simulateUpdates(count = 50) {
+    const randomProducts = await db
+        .select({
+            id: products.id,
+        })
+        .from(products)
+        .orderBy(sql`RANDOM()`)
+        .limit(count);
+
+    const ids = randomProducts.map((p) => p.id);
+
+    if (!ids.length) {
+        return 0;
+    }
+
+    await db
+        .update(products)
+        .set({
+            updatedAt: sql`NOW()`,
+        })
+        .where(inArray(products.id, ids));
+
+    return ids.length;
 }
